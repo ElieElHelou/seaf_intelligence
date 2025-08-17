@@ -55,6 +55,11 @@ docker buildx build -t seaf_intel:latest .
 docker run -p 7860:7860 seaf_intelligence
 ```
 
+6. Use this link in a web browser to access the web application:
+```
+http://localhost:7860
+```
+
 ## **Known issues**
 
 The model having been trained on a significant yet entirely insufficient dataset, cannot detect Helldiver models other than a few known armors like 
