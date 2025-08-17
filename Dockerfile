@@ -3,7 +3,9 @@ FROM --platform=$BUILDPLATFORM python:3.11.1 AS builder
 WORKDIR /app
 
 RUN apt-get update && apt-get install -y \
-    libgl1-mesa-glx \ libglib2.0-0 \ libgomp1 \
+    libgl1-mesa-glx \
+    libglib2.0-0 \
+    libgomp1 \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt /app
@@ -12,7 +14,6 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 
 COPY . /app
 
-EXPOSE 5000
+EXPOSE 7860
 
-ENTRYPOINT ["python3"]
-CMD ["app.py"]
+CMD ["gunicorn", "app:app", "--timeout", "300", "--bind", "0.0.0.0:7860"]
