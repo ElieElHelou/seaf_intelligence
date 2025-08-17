@@ -43,7 +43,7 @@ def runAnalysis(image):
 
     
     if boxes is not None:
-        for i, box in enumerate(boxes):
+        for box in boxes:
             cornerCoords = box.xyxy[0].tolist()
             confidence = float(box.conf[0])
             classIdInt = int(box.cls[0])
@@ -57,7 +57,6 @@ def runAnalysis(image):
             bottomRightCornerY = round(cornerCoords[3], 2)
 
             detectionInfo = {
-                'id': i + 1,
                 'classLabel': classLabel,
                 'classID': classIdInt,
                 'confidence': confidence,
