@@ -1,0 +1,128 @@
+<html>
+   <head>
+      <style>
+         .left-area {
+         position: fixed;
+         left: 0;
+         top: 0;
+         width: 50%;
+         height: 100vh;
+         background-image: url("{{ url_for('static', filename='super_earth.webp') }}");
+         background-position: center;
+         background-repeat: no-repeat;
+         background-size: cover;
+         }
+
+         .content-area {
+         position: fixed;
+         right: 0;
+         top: 0;
+         width: 50%;
+         height: 100vh;
+         background-color: #f0f0f0;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         }
+
+      a[name="viewport"] {
+         content: "width=device-width, initial-scale=1";
+      }
+
+      body, html {
+         height: 100%;
+         margin: 0;
+         padding: 0;
+         font-family: Arial, Helvetica, sans-serif;
+         }
+
+         * {
+         box-sizing: border-box;
+         }
+
+         .container {
+         max-width: 900px;
+         min-height: 400px;
+         width: 80%;
+         padding: 25px;
+         background-color: white;
+         border-radius: 12px;
+         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+         }
+
+         .btn {
+         background-color: #04AA6D;
+         color: white;
+         padding: 10px 15px;
+         border: none;
+         cursor: pointer;
+         width: 60%;
+         opacity: 0.9;
+         border-radius: 5px;
+         font-size: 14px;
+         margin: 0 auto;
+         display: block;
+         }
+
+         .btn:hover {
+         opacity: 1;
+         }
+
+         .image-preview {
+         margin: 15px 0;
+         text-align: center;
+         display: none;
+         }
+
+         .image-preview img {
+         max-width: 100%;
+         max-height: 200px;
+         border: 2px solid #04AA6D;
+         border-radius: 5px;
+         }
+
+         .preview-label {
+         font-weight: bold;
+         margin-bottom: 5px;
+         color: #333;
+         }
+
+         #imageForAnalysis {
+         margin-bottom: 10px;
+         }
+      </style>
+      <script>
+         function previewImage(event) {
+            const file = event.target.files[0];
+            const preview = document.getElementById('imagePreview');
+            const previewContainer = document.getElementById('previewContainer');
+            
+            if (file) {
+               const reader = new FileReader();
+               reader.onload = function(e) {
+                  preview.src = e.target.result;
+                  previewContainer.style.display = 'block';
+               }
+               reader.readAsDataURL(file);
+            } else {
+               previewContainer.style.display = 'none';
+            }
+         }
+      </script>
+   </head>
+   <body>
+      <div class="left-area"></div>
+      <div class="content-area">
+         <form action = "http://localhost:5000/seaf_command/analysis/rdev" method = "post" class="container" enctype="multipart/form-data">
+            <p>Enter Combat Imagery:</p>
+            <p><input type = "file" id="imageForAnalysis" name="image" accept="image/*" onchange="previewImage(event)"></p>
+            
+            <div id="previewContainer" class="image-preview">
+               <img id="imagePreview" alt="Image Preview">
+            </div>
+            
+            <p><input type = "submit" value = "Analyze Image" class="btn"/></p>
+         </form>
+      </div>
+   </body>
+</html>
