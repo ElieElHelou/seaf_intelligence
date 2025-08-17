@@ -1,9 +1,10 @@
-from flask import Flask, render_template, Blueprint, request
+from flask import Flask, render_template, Blueprint, request, redirect, url_for
 from ultralytics import YOLO
 import io
 from PIL import Image
 import base64
 import cv2
+import os
 
 app = Flask(__name__)
 
@@ -15,13 +16,13 @@ seaf_command = Blueprint('pages', __name__, url_prefix='/seaf_command')
 def detectionRequestPage():
     return render_template('input_page.html')
 
-model = YOLO('./best.torchscript', task='detect')
-
 def runAnalysis(image):
     
     image = image.convert('RGB')
     image = image.resize((800, 800))
     
+    model = YOLO('./best.torchscript', task='detect')
+
     results = model.predict(
         source=image, 
         task='detect',
@@ -110,9 +111,14 @@ def detectRdev():
                                     error=f"Error during analysis: {str(e)}")
        else:
            return "No image uploaded.", 400
-      
+
+@app.route('/')
+def home():
+    return redirect(url_for('pages.detectionRequestPage'))
+
 seaf_command.register_blueprint(detection)
 app.register_blueprint(seaf_command)
       
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    port = int(os.environ.get("PORT", 7860))
+    app.run(host='0.0.0.0', port=port)
