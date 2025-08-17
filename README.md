@@ -18,17 +18,17 @@ The detection results will appear after passing through a thorough and democrati
 
 ![Analysis Report](/readme_resources/rdevAnalysisResults.png)
 
-====================================================== Commands for Deployment =========================================================================
+** Commands for Deployment **
 
 Inside the code directory run the following command to build a container image:
 
-docker buildx build -t seaf_intel:latest .
+<< docker buildx build -t seaf_intel:latest . >>
 
 Then run the following command to deploy a new instance of the SEAF Analysis model:
 
-docker run -p 5000:5000 seaf_intelligence
+<< docker run -p 5000:5000 seaf_intelligence >>
 
-====================================================== Known issues ====================================================================================
+** Known issues **
 
 The model having been trained on a significant yet entirely insufficient dataset, cannot detect Helldiver models other than a few known armors like 
 CE-27 or FS-55. Additionally, any objects that are further than 20 meters (in-game) cannot be reliably detected. The model also has a tendency to misidentify objects when the submitted image's dimensions diverge too far from 800x800. Future prototypes will take into account distance, image quality, object shades at nighttime and daytime as well as other distortion factors commonly found on the battlefield.
